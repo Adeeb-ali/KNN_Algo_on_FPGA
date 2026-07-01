@@ -239,6 +239,8 @@ void knn(float query[FEATURE_LEN], int *predicted_class) {
 This project is for academic purposes. See `LICENSE` for details.
 """
 
+"""
+
 with open('/mnt/agents/output/README.md', 'w') as f:
     f.write(readme)
 
