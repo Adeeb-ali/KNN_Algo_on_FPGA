@@ -264,7 +264,7 @@ If you use this work in your research, please cite:
 ```bibtex
 @report{knn_fpga_2025,
   title={Machine Learning Algorithms on FPGA: KNN Implementation},
-  author={Ali, Adeeb and Anas, Mohd.},
+  author={Adeeb Ali and Mohd. Anas},
   institution={ZHCET, AMU},
   year={2025},
   type={B.Tech. Project Phase-1 Report}
