@@ -290,8 +290,4 @@ We sincerely thank **Dr. Mohd Wajid** for invaluable guidance and continuous sup
 </p>
 """
 
-with open('/mnt/agents/output/README.md', 'w') as f:
-    f.write(readme_content)
 
-print("README.md created successfully!")
-print(f"File size: {len(readme_content)} characters")
