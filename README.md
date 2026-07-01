@@ -1,27 +1,3 @@
-```python
-raw_str = """with open('/mnt/agents/output/README.md', 'w') as f:
-    f.write(readme_content)"""
-print([hex(ord(c)) for c in raw_str])
-
-
-
-```
-
-```text
-['0x77', '0x69', '0x74', '0x68', '0x20', '0x6f', '0x70', '0x65', '0x6e', '0x28', '0x27', '0x2f', '0x6d', '0x6e', '0x74', '0x2f', '0x61', '0x67', '0x65', '0x6e', '0x74', '0x73', '0x2f', '0x6f', '0x75', '0x74', '0x70', '0x75', '0x74', '0x2f', '0x52', '0x45', '0x41', '0x44', '0x4d', '0x45', '0x2e', '0x6d', '0x64', '0x27', '0x2c', '0x20', '0x27', '0x77', '0x27', '0x29', '0x20', '0x61', '0x73', '0x20', '0x66', '0x3a', '0xa', '0xa0', '0x20', '0xa0', '0x20', '0x66', '0x2e', '0x77', '0x72', '0x69', '0x74', '0x65', '0x28', '0x72', '0x65', '0x61', '0x64', '0x6d', '0x65', '0x5f', '0x63', '0x6f', '0x6e', '0x74', '0x65', '0x6e', '0x74', '0x29']
-
-
-```
-
-The issue with your code is the presence of hidden **non-breaking spaces (`\xa0`)** used for indentation instead of standard spaces (` `).
-
-In Python, using non-breaking spaces outside of a string literal will throw a `SyntaxError` or `IndentationError`. Furthermore, having them inside the code examples within your `readme_content` string means anyone who copy-pastes from your generated `README.md` would run into compilation and interpretation errors in their C++ and Python environments.
-
-Here is the fully corrected code with all non-breaking spaces replaced by standard spaces:
-
-```python
-readme_content = """# KNN Algorithm on FPGA
-
 > **Hardware-Accelerated K-Nearest Neighbors Classification using High-Level Synthesis (HLS) on Xilinx Zynq-7000**
 
 [![Vitis HLS](https://img.shields.io/badge/Vitis%20HLS-2023.1-blue)](https://www.xilinx.com/products/design-tools/vitis/vitis-hls.html)
@@ -46,31 +22,28 @@ This project implements the **K-Nearest Neighbors (KNN)** classification algorit
 
 ## 🏗️ Architecture
 
-
 ```
-
 ┌─────────────────────────────────────────────────────────┐
-│                        Zynq-7000 SoC                    │
+│                    Zynq-7000 SoC                         │
 │  ┌─────────────────┐    ┌──────────────────────────┐  │
-│  │ Processing      │◄──►│    Programmable Logic    │  │
-│  │ System (PS)     │AXI │    (PL) - KNN Accelerator │  │
-│  │ ARM Cortex-A9   │Lite│  ┌─────────────────────┐  │  │
-│  │ Linux + PYNQ    │    │  │  Distance Compute   │  │  │
+│  │  Processing     │◄──►│    Programmable Logic     │  │
+│  │  System (PS)    │AXI │    (PL) - KNN Accelerator │  │
+│  │  ARM Cortex-A9  │Lite│  ┌─────────────────────┐  │  │
+│  │  Linux + PYNQ   │    │  │  Distance Compute   │  │  │
 │  │                 │    │  │  Unit (Parallel)    │  │  │
-│  │ Python Script   │    │  └──────────┬──────────┘  │  │
-│  │ sends query     │    │             │             │  │
-│  │ features        │    │  ┌──────────▼──────────┐  │  │
-│  │                 │    │  │ Neighbor Selection  │  │  │
-│  │ reads result    │    │  │ Unit (K=3)          │  │  │
-│  │ (predicted      │    │  └──────────┬──────────┘  │  │
+│  │  Python Script  │    │  └──────────┬──────────┘  │  │
+│  │  sends query    │    │             │             │  │
+│  │  features       │    │  ┌──────────▼──────────┐  │  │
+│  │                 │    │  │  Neighbor Selection │  │  │
+│  │  reads result   │    │  │  Unit (K=3)         │  │  │
+│  │  (predicted     │    │  └──────────┬──────────┘  │  │
 │  │   class)        │    │             │             │  │
 │  └─────────────────┘    │  ┌──────────▼──────────┐  │  │
-│                         │  │    Majority Voting  │  │  │
-│                         │  │         Unit        │  │  │
+│                         │  │   Majority Voting   │  │  │
+│                         │  │      Unit           │  │  │
 │                         │  └─────────────────────┘  │  │
 │                         └───────────────────────────┘  │
 └─────────────────────────────────────────────────────────┘
-
 ```
 
 ### Hardware Modules
@@ -116,32 +89,26 @@ This project implements the **K-Nearest Neighbors (KNN)** classification algorit
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/yourusername/knn-fpga.git](https://github.com/yourusername/knn-fpga.git)
+git clone https://github.com/yourusername/knn-fpga.git
 cd knn-fpga
-
 ```
 
 ### 2. HLS Synthesis (Vitis HLS)
-
 ```bash
 # Open Vitis HLS and create project
 vitis_hls -f scripts/create_hls_project.tcl
 
 # Or run via command line
 vitis_hls knn_hls.cpp -cflags "-I./include" -csim -csynth -cosim -export
-
 ```
 
 ### 3. Vivado Integration
-
 ```bash
 # Generate bitstream with Zynq block design
 vivado -mode batch -source scripts/build_bitstream.tcl
-
 ```
 
 ### 4. Deploy on FPGA (PYNQ)
-
 ```python
 from pynq import Overlay
 import numpy as np
@@ -168,7 +135,6 @@ while (knn_ip.read(0x00) & 0x2) == 0:
 # Read predicted class (0x20)
 result = knn_ip.read(0x20)
 print(f"Predicted class: {result}")  # 0=Setosa, 1=Versicolor, 2=Virginica
-
 ```
 
 ---
@@ -194,7 +160,6 @@ knn-fpga/
 ├── docs/
 │   └── report.pdf           # Full project report (Phase-1)
 └── README.md
-
 ```
 
 ---
@@ -202,7 +167,6 @@ knn-fpga/
 ## 🔧 HLS Design Details
 
 ### Core Algorithm (knn_hls.cpp)
-
 ```cpp
 void knn(float query[FEATURE_LEN], int *predicted_class) {
     #pragma HLS INTERFACE s_axilite port=query bundle=CTRL
@@ -228,13 +192,11 @@ void knn(float query[FEATURE_LEN], int *predicted_class) {
     // Majority voting
     // ... (class vote counting)
 }
-
 ```
 
 ### AXI-Lite Register Map
-
 | Offset | Register | Description |
-| --- | --- | --- |
+|--------|----------|-------------|
 | `0x00` | CTRL | Control (AP_START, AP_DONE, AP_IDLE) |
 | `0x04` | GIER | Global Interrupt Enable |
 | `0x08` | IP_IER | IP Interrupt Enable |
@@ -250,9 +212,8 @@ void knn(float query[FEATURE_LEN], int *predicted_class) {
 ## 📈 Results
 
 ### Classification Accuracy
-
 | Sample | Features | Expected | Predicted | Status |
-| --- | --- | --- | --- | --- |
+|--------|----------|----------|-----------|--------|
 | Setosa-1 | [5.1, 3.5, 1.4, 0.2] | 0 | 0 | ✅ Pass |
 | Setosa-2 | [4.9, 3.0, 1.4, 0.2] | 0 | 0 | ✅ Pass |
 | Versicolor-1 | [7.0, 3.2, 4.7, 1.4] | 1 | 1 | ✅ Pass |
@@ -261,27 +222,35 @@ void knn(float query[FEATURE_LEN], int *predicted_class) {
 **Hardware Test Accuracy: 90% (9/10 random samples)**
 
 ### Performance Comparison
-
 | Platform | Latency | Power | Notes |
-| --- | --- | --- | --- |
+|----------|---------|-------|-------|
 | **FPGA (This Work)** | **1.58 µs** | **~2W** | Hardware accelerated |
 | ARM Cortex-A9 (SW) | ~500 µs | ~5W | Single-threaded C++ |
 | Intel i7 (Python) | ~2 ms | ~65W | scikit-learn |
 
 ---
 
+## 🔮 Future Work
+
+- [ ] **Dynamic Training Data Loading**: AXI master interface for DDR memory access
+- [ ] **Configurable K Value**: Runtime programmable via control register
+- [ ] **Multiple Distance Metrics**: Manhattan, Minkowski, Hamming support
+- [ ] **Scalability**: Support for 1000+ samples and >3 classes
+- [ ] **Batch Inference**: Parallel query processing with AXI DMA
+- [ ] **Extended ML Suite**: SVM, Decision Tree, Naive Bayes accelerators
+- [ ] **Fixed-Point Arithmetic**: Reduced power and resource usage
+- [ ] **IoT Deployment**: Sensor data classification at the edge
+
+---
 
 ## 👥 Authors
 
-* **Adeeb Ali** (22ELB521) — HLS Design, Hardware Architecture, Testing
-* **Mohd. Anas** (22ELB524) — System Integration, Validation, Documentation
+- **Adeeb Ali** (22ELB521) — HLS Design, Hardware Architecture, Testing
+- **Mohd. Anas** (22ELB524) — System Integration, Validation, Documentation
 
-**Supervisor**: Dr. Mohd Wajid
-
-**Institution**: Department of Electronics Engineering,
-
-Zakir Husain College of Engineering & Technology,
-
+**Supervisor**: Dr. Mohd Wajid  
+**Institution**: Department of Electronics Engineering,  
+Zakir Husain College of Engineering & Technology,  
 Aligarh Muslim University, Aligarh, India
 
 ---
@@ -293,19 +262,18 @@ If you use this work in your research, please cite:
 ```bibtex
 @report{knn_fpga_2025,
   title={Machine Learning Algorithms on FPGA: KNN Implementation},
-  author={Adeeb and Anas},
+  author={Ali, Adeeb and Anas, Mohd.},
   institution={ZHCET, AMU},
   year={2025},
   type={B.Tech. Project Phase-1 Report}
 }
-
 ```
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License — see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
 
 ---
 
@@ -315,12 +283,13 @@ We sincerely thank **Dr. Mohd Wajid** for invaluable guidance and continuous sup
 
 ---
 
+<p align="center">
+  <sub>Built with ❤️ for edge AI and embedded machine learning</sub>
+</p>
+"""
+
 with open('/mnt/agents/output/README.md', 'w') as f:
-f.write(readme_content)
+    f.write(readme_content)
 
 print("README.md created successfully!")
 print(f"File size: {len(readme_content)} characters")
-
-```
-
-```
