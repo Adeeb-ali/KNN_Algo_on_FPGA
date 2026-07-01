@@ -1,3 +1,5 @@
+readme_content = """# KNN Algorithm on FPGA
+
 > **Hardware-Accelerated K-Nearest Neighbors Classification using High-Level Synthesis (HLS) on Xilinx Zynq-7000**
 
 [![Vitis HLS](https://img.shields.io/badge/Vitis%20HLS-2023.1-blue)](https://www.xilinx.com/products/design-tools/vitis/vitis-hls.html)
